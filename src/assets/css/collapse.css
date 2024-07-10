@@ -1,0 +1,21 @@
+.custom-collapse-item {
+    background-color: transparent; /* 设置折叠项的背景色为透明 */
+}
+
+.custom-collapse-item .el-collapse-item__wrap {
+    background-color: rgba(255, 255, 255, 0); /* 设置内容区域的背景色透明度 */
+}
+.custom-collapse-item .el-collapse-item__header {
+    background-color: rgba(0, 0, 0, 0.1); /* 设置标题的背景色透明度 */
+}
+.custom-collapse-item .el-collapse-item__header {
+    border: none; /* 移除折叠项的标题边框 */
+}
+
+.custom-collapse-item .el-collapse-item__wrap {
+    border: none; /* 移除折叠项的内容区域边框 */
+}
+
+.custom-collapse-item .el-collapse-item__content {
+    border: none; /* 移除折叠项的内容边框 */
+}

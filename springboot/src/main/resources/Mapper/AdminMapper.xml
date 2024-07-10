@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springboot.mapper.AdminMapper">
+    <insert id="add">
+        INSERT INTO admin (`username`, `name`, `time`, `state`, `password`,`roleId`) VALUES (#{username}, #{name}, #{time}, #{state}, #{password},#{roleId});
+    </insert>
+    <update id="update">
+        UPDATE admin SET username = #{username}, name = #{name},time = #{time},state = #{state},password = #{password},roleId = #{roleId} WHERE id = #{id}
+    </update>
+    <delete id="delete">
+        delete from admin where id = #{id}
+    </delete>
+    <select id="selectAdminByUserName" resultType="com.springboot.entity.Admin">
+        select * from admin where username = #{name} limit 1
+    </select>
+    <select id="AdminByPassword" resultType="com.springboot.entity.Admin">
+        select * from admin where username = #{username} and password = #{password} limit 1
+    </select>
+    <select id="selectByKey" resultType="com.springboot.entity.Admin">
+        select * from admin where id = #{id}
+    </select>
+    <select id="pageSelect" resultType="com.springboot.entity.Admin">
+        SELECT admin.*,role.`name` AS roleName FROM admin
+        LEFT JOIN role ON admin.roleId = role.id
+        <where>
+            state != 'root'
+            <if test="params != null and params.username != null and params.username != ''">
+                and admin.username like concat('%',#{ params.username },'%')
+            </if>
+        </where>
+        order by admin.id desc
+    </select>
+    <select id="findAll" resultType="com.springboot.entity.Admin">
+        select * from admin
+    </select>
+    <select id="findByRoleId" resultType="com.springboot.entity.Role">
+        SELECT * FROM role WHERE id = #{id}
+    </select>
+    <select id="findBySate" resultType="com.springboot.entity.Permissions">
+        SELECT * FROM permissions WHERE id = #{id}
+    </select>
+    <select id="findAllUsernames" resultType="java.lang.String">
+        SELECT username FROM admin
+    </select>
+</mapper>

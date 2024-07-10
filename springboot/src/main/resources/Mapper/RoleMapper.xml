@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springboot.mapper.RoleMapper">
+    <insert id="add">
+        INSERT INTO role (`name`, `description`, `code`, `permissions`,`permissionsId`) VALUES (#{name}, #{description}, #{code}, #{permissions},#{permissionsId});
+    </insert>
+    <update id="update">
+        UPDATE role SET name = #{name}, description = #{description},code = #{code},permissions = #{permissions},permissionsId = #{permissionsId} WHERE id = #{id}
+    </update>
+    <delete id="delete">
+        delete from role where id = #{id}
+    </delete>
+    <select id="findAll" resultType="com.springboot.entity.Role">
+        select * from role where code != 'root'
+    </select>
+    <select id="pageSelect" resultType="com.springboot.entity.Role">
+        SELECT role.*,permissions.`name` AS permName FROM role
+        LEFT JOIN permissions ON role.permissionsId = permissions.id
+        <where>
+            role.code != 'root'
+            <if test="params != null and params.name != null and params.name != ''">
+                and role.name like concat('%',#{ params.name },'%')
+            </if>
+            <if test="params != null and params.description != null and params.description != ''">
+                and role.description like concat('%',#{params.description},'%')
+            </if>
+        </where>
+        order by role.id
+    </select>
+    <select id="findByRoleId">
+        SELECT * FROM role WHERE id = #{id}
+    </select>
+</mapper>

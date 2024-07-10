@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springboot.mapper.NoticeMapper">
+    <insert id="add">
+        INSERT INTO notice (`name`, `content`, `time`) VALUES (#{name}, #{content}, #{time});
+    </insert>
+    <update id="update">
+        UPDATE notice SET name = #{name}, content = #{content},time = #{time} WHERE id = #{id}
+    </update>
+    <delete id="delete">
+        DELETE FROM notice WHERE id = #{id}
+    </delete>
+    <select id="pageSelect" resultType="com.springboot.entity.Notice">
+        SELECT * FROM notice
+        <where>
+            <if test="params != null and params.name != null and params.name != ''">
+                and name like concat('%',#{ params.name },'%')
+            </if>
+        </where>
+        order by time desc
+    </select>
+    <select id="selectAll" resultType="com.springboot.entity.Notice">
+        SELECT * FROM notice ORDER BY time DESC  limit 3
+    </select>
+</mapper>
